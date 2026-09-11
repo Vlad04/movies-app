@@ -8,8 +8,20 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
     ?? throw new InvalidOperationException(
         "No se configuró ConnectionStrings:DefaultConnection. Usa User Secrets localmente o ConnectionStrings__DefaultConnection en producción.");
 
+// Detecta la versión una sola vez al iniciar la aplicación.
+var serverVersion = ServerVersion.AutoDetect(connectionString);
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+    options.UseMySql(
+        connectionString,
+        serverVersion,
+        mySqlOptions =>
+        {
+            mySqlOptions.EnableRetryOnFailure(
+                maxRetryCount: 3,
+                maxRetryDelay: TimeSpan.FromSeconds(5),
+                errorNumbersToAdd: null);
+        }));
 
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
