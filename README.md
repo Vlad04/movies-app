@@ -1,6 +1,6 @@
 # Movies Manager — CRUD técnico
 
-Aplicación web para administrar películas y directores mediante un CRUD completo. Utiliza Angular para la interfaz, ASP.NET Core Web API para la lógica y MySQL para persistencia.
+Aplicación web para administrar películas y directores mediante un CRUD completo. Utiliza Angular para la interfaz, ASP.NET Core Web API para la lógica y MySQL para base de datos.
 
 ## Demostración pública
 
@@ -22,12 +22,17 @@ Aplicación web para administrar películas y directores mediante un CRUD comple
 
 ```mermaid
 flowchart LR
-    UI[Angular] -->|HTTP / JSON| API[ASP.NET Core API]
-    API --> EF[Entity Framework Core]
-    EF --> DB[(MySQL en Hostinger)]
+    UI["Angular<br/>Interfaz que utiliza el usuario"]
+    API["ASP.NET Core API<br/>Procesa y valida las solicitudes"]
+    EF["Entity Framework Core<br/>Traduce C# a consultas SQL"]
+    DB[("MySQL en Hostinger<br/>Almacena los datos")]
+
+    UI -->|"Envía y recibe datos"| API
+    API -->|"Consulta o modifica información"| EF
+    EF -->|"Ejecuta operaciones SQL"| DB
 ```
 
-En producción, ASP.NET Core también sirve los archivos compilados de Angular. La interfaz y la API comparten una sola URL y las llamadas se realizan mediante `/api`.
+En producción, ASP.NET Core aloja Angular y la API en un mismo servicio, utilizando /api para las solicitudes del frontend.
 
 ## Tecnologías
 
