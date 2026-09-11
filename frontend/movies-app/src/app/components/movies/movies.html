@@ -1,0 +1,54 @@
+<section class="page">
+  <div class="hero-card">
+    <div>
+      <p class="eyebrow">Catálogo de películas</p>
+      <h1>Organiza todas tus películas en un solo lugar.</h1>
+      <p class="hero-copy">Registra títulos, géneros, duración y el director responsable de cada producción.</p>
+    </div>
+    <div class="hero-decoration" aria-hidden="true">M</div>
+  </div>
+
+  <div class="stats-grid">
+    <article class="stat-card stat-lilac"><span class="stat-icon">M</span><div><strong>{{ movies.length }}</strong><span>Películas registradas</span></div><small>Total</small></article>
+    <article class="stat-card stat-pink"><span class="stat-icon">D</span><div><strong>{{ directors.length }}</strong><span>Directores disponibles</span></div><small>Catálogo</small></article>
+    <article class="stat-card stat-blue"><span class="stat-icon">✓</span><div><strong>{{ filteredMovies.length }}</strong><span>Resultados visibles</span></div><small>Filtro</small></article>
+  </div>
+
+  <article class="content-card form-card">
+    <div class="card-heading">
+      <div><p class="eyebrow">{{ editingId === null ? 'Nuevo registro' : 'Edición' }}</p><h2>{{ editingId === null ? 'Agregar película' : 'Actualizar película' }}</h2><p>Completa los datos obligatorios del catálogo.</p></div>
+      <span class="mode-badge" [class.editing]="editingId !== null">{{ editingId === null ? 'Modo creación' : 'Editando ID ' + editingId }}</span>
+    </div>
+    <form #movieForm="ngForm" (ngSubmit)="save()" class="form-grid movie-form">
+      <label><span>Nombre de la película</span><input name="name" [(ngModel)]="form.name" required maxlength="100" placeholder="Ej. Interestelar"></label>
+      <label><span>Género</span><input name="gender" [(ngModel)]="form.gender" required maxlength="50" placeholder="Ej. Ciencia ficción"></label>
+      <label><span>Duración</span><input name="duration" [(ngModel)]="form.duration" type="time" required></label>
+      <label><span>Director</span><select name="fkDirector" [(ngModel)]="form.fkDirector" required><option [ngValue]="0" disabled>Selecciona un director</option><option *ngFor="let director of directors" [ngValue]="director.pkDirector">{{ director.name }}{{ director.active ? '' : ' (inactivo)' }}</option></select></label>
+      <div class="actions form-actions">
+        <button class="button primary" type="submit" [disabled]="movieForm.invalid || form.fkDirector === 0 || saving">{{ saving ? 'Guardando…' : (editingId === null ? 'Agregar película' : 'Guardar cambios') }}</button>
+        <button *ngIf="editingId !== null" type="button" class="button ghost" (click)="cancel()">Cancelar</button>
+      </div>
+    </form>
+  </article>
+
+  <p *ngIf="error" class="alert error" role="alert">{{ error }}</p>
+  <p *ngIf="success" class="alert success" role="status">{{ success }}</p>
+
+  <article class="content-card table-card">
+    <div class="card-heading table-title"><div><p class="eyebrow">Consulta</p><h2>Listado de películas</h2><p>{{ filteredMovies.length }} de {{ movies.length }} registros</p></div></div>
+    <div class="filters-grid">
+      <label class="search-field"><span>Buscar</span><input [(ngModel)]="searchTerm" placeholder="Nombre o director…" aria-label="Buscar por película o director"></label>
+      <label><span>Género</span><select [(ngModel)]="genreFilter" aria-label="Filtrar por género"><option value="">Todos los géneros</option><option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option></select></label>
+      <label><span>Director</span><select [(ngModel)]="directorFilter" aria-label="Filtrar por director"><option [ngValue]="0">Todos los directores</option><option *ngFor="let director of directors" [ngValue]="director.pkDirector">{{ director.name }}</option></select></label>
+      <button type="button" class="button ghost clear-button" (click)="clearFilters()">Limpiar filtros</button>
+    </div>
+    <div class="loading-state" *ngIf="loading"><span class="spinner"></span> Cargando películas…</div>
+    <div class="table-wrap" *ngIf="!loading && filteredMovies.length">
+      <table>
+        <thead><tr><th>ID</th><th>Película</th><th>Género</th><th>Duración</th><th>Director</th><th>Acciones</th></tr></thead>
+        <tbody><tr *ngFor="let movie of filteredMovies; trackBy: trackByMovieId"><td><span class="id-badge">#{{ movie.pkMovies }}</span></td><td><strong class="primary-cell">{{ movie.name }}</strong></td><td><span class="tag">{{ movie.gender }}</span></td><td>{{ movie.duration }}</td><td>{{ movie.directorName }}</td><td class="row-actions"><button type="button" class="icon-button edit" (click)="edit(movie)">Editar</button><button type="button" class="icon-button delete" (click)="remove(movie)">Eliminar</button></td></tr></tbody>
+      </table>
+    </div>
+    <div class="empty-state" *ngIf="!loading && !filteredMovies.length"><span>⌕</span><strong>No encontramos películas</strong><p>Prueba con otros filtros o agrega un nuevo registro.</p></div>
+  </article>
+</section>
