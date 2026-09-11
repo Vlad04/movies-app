@@ -1,45 +1,108 @@
 <section class="page">
-  <div class="hero-card directors-hero">
-    <div><p class="eyebrow">Talento creativo</p><h1>Administra a todos tus directores.</h1><p class="hero-copy">Mantén actualizada la información de las personas responsables de cada película.</p></div>
-    <div class="hero-decoration" aria-hidden="true">D</div>
-  </div>
 
+  <!--Tarjetas de resumén de directores - ayuda a visualizar directores registrados, activos y la cantidad de resultados filtrados-->
   <div class="stats-grid">
-    <article class="stat-card stat-lilac"><span class="stat-icon">D</span><div><strong>{{ directors.length }}</strong><span>Directores registrados</span></div><small>Total</small></article>
-    <article class="stat-card stat-green"><span class="stat-icon">✓</span><div><strong>{{ activeCount }}</strong><span>Directores activos</span></div><small>Disponibles</small></article>
-    <article class="stat-card stat-blue"><span class="stat-icon">⌕</span><div><strong>{{ filteredDirectors.length }}</strong><span>Resultados visibles</span></div><small>Filtro</small></article>
+    <article class="stat-card stat-lilac"><span class="stat-icon">D</span>
+      <div><strong>{{ directors.length }}</strong><span>Directores registrados</span></div><small>Total</small>
+    </article>
+    <article class="stat-card stat-green"><span class="stat-icon">✓</span>
+      <div><strong>{{ activeCount }}</strong><span>Directores activos</span></div><small>Disponibles</small>
+    </article>
+    <article class="stat-card stat-blue"><span class="stat-icon">⌕</span>
+      <div><strong>{{ filteredDirectors.length }}</strong><span>Resultados visibles</span></div><small>Filtro</small>
+    </article>
   </div>
 
+  <!--Formulario para agregar o editar directores-->
   <article class="content-card form-card">
     <div class="card-heading">
-      <div><p class="eyebrow">{{ editingId === null ? 'Nuevo registro' : 'Edición' }}</p><h2>{{ editingId === null ? 'Agregar director' : 'Actualizar director' }}</h2><p>Registra el nombre, edad y estado actual.</p></div>
-      <span class="mode-badge" [class.editing]="editingId !== null">{{ editingId === null ? 'Modo creación' : 'Editando ID ' + editingId }}</span>
+      <div>
+        <p class="eyebrow">{{ editingId === null ? 'Nuevo registro' : 'Edición' }}</p>
+        <h2>{{ editingId === null ? 'Agregar director' : 'Actualizar director' }}</h2>
+        <p>Registra el nombre, edad y estado actual.</p>
+      </div>
+      <span class="mode-badge" [class.editing]="editingId !== null">{{ editingId === null ? 'Modo creación' : 'Editando
+        ID ' + editingId }}</span>
     </div>
     <form #directorForm="ngForm" (ngSubmit)="save()" class="form-grid director-form">
-      <label><span>Nombre completo</span><input name="name" [(ngModel)]="form.name" required maxlength="100" placeholder="Ej. Sofia Coppola"></label>
-      <label><span>Edad</span><input name="age" [(ngModel)]="form.age" type="number" min="0" max="130" required></label>
-      <label class="switch-field"><span>Estado</span><span class="switch-row"><input name="active" [(ngModel)]="form.active" type="checkbox"><span>{{ form.active ? 'Director activo' : 'Director inactivo' }}</span></span></label>
-      <div class="actions form-actions"><button class="button primary" type="submit" [disabled]="directorForm.invalid || saving">{{ saving ? 'Guardando…' : (editingId === null ? 'Agregar director' : 'Guardar cambios') }}</button><button *ngIf="editingId !== null" type="button" class="button ghost" (click)="cancel()">Cancelar</button></div>
+      <label><span>Nombre completo</span>
+        <input name="name" [(ngModel)]="form.name" required maxlength="100" placeholder="Ej. Sofia Coppola">
+      </label>
+      <label><span>Edad</span>
+        <input name="age" [(ngModel)]="form.age" type="number" min="0" max="130" required>
+      </label>
+      <label class="switch-field"><span>Estado</span><span class="switch-row"><input name="active"
+            [(ngModel)]="form.active" type="checkbox"><span>{{ form.active ? 'Director activo' : 'Director inactivo'
+            }}</span></span>
+      </label>
+      <div class="actions form-actions">
+        <button class="button primary" type="submit" [disabled]="directorForm.invalid || saving">{{ saving ?
+          'Guardando…' : (editingId === null ? 'Agregar director' : 'Guardar cambios') }}</button>
+        <button *ngIf="editingId !== null" type="button" class="button ghost" (click)="cancel()">Cancelar</button>
+      </div>
     </form>
   </article>
 
+  <!--Mensajes de error o éxito-->
   <p *ngIf="error" class="alert error" role="alert">{{ error }}</p>
   <p *ngIf="success" class="alert success" role="status">{{ success }}</p>
 
+  <!--Tabla de consulta con filtros-->
   <article class="content-card table-card">
-    <div class="card-heading table-title"><div><p class="eyebrow">Consulta</p><h2>Listado de directores</h2><p>{{ filteredDirectors.length }} de {{ directors.length }} registros</p></div></div>
+    <div class="card-heading table-title">
+      <div>
+        <p class="eyebrow">Consulta</p>
+        <h2>Listado de directores</h2>
+        <p>{{ filteredDirectors.length }} de {{ directors.length }} registros</p>
+      </div>
+    </div>
+    <!--Filtros para buscar y filtrar directores por nombre y estado-->
     <div class="filters-grid directors-filters">
-      <label class="search-field"><span>Buscar por nombre</span><input [(ngModel)]="searchTerm" placeholder="Escribe un nombre…" aria-label="Buscar director por nombre"></label>
-      <label><span>Estado</span><select [(ngModel)]="statusFilter" aria-label="Filtrar directores por estado"><option value="all">Todos</option><option value="active">Activos</option><option value="inactive">Inactivos</option></select></label>
+      <label class="search-field"><span>Buscar por nombre</span>
+        <input [(ngModel)]="searchTerm" placeholder="Escribe un nombre…" aria-label="Buscar director por nombre">
+      </label>
+      <label><span>Estado</span>
+        <select [(ngModel)]="statusFilter" aria-label="Filtrar directores por estado">
+          <option value="all">Todos</option>
+          <option value="active">Activos</option>
+          <option value="inactive">Inactivos</option>
+        </select>
+      </label>
       <button type="button" class="button ghost clear-button" (click)="clearFilters()">Limpiar filtros</button>
     </div>
     <div class="loading-state" *ngIf="loading"><span class="spinner"></span> Cargando directores…</div>
+    <!--Tabla con la lista de directores filtrados-->
     <div class="table-wrap" *ngIf="!loading && filteredDirectors.length">
       <table>
-        <thead><tr><th>ID</th><th>Director</th><th>Edad</th><th>Estado</th><th>Acciones</th></tr></thead>
-        <tbody><tr *ngFor="let director of filteredDirectors; trackBy: trackByDirectorId"><td><span class="id-badge">#{{ director.pkDirector }}</span></td><td><strong class="primary-cell">{{ director.name }}</strong></td><td>{{ director.age }} años</td><td><span class="status-badge" [class.inactive]="!director.active"><span></span>{{ director.active ? 'Activo' : 'Inactivo' }}</span></td><td class="row-actions"><button type="button" class="icon-button edit" (click)="edit(director)">Editar</button><button type="button" class="icon-button delete" (click)="remove(director)">Eliminar</button></td></tr></tbody>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Director</th>
+            <th>Edad</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let director of filteredDirectors; trackBy: trackByDirectorId">
+            <td><span class="id-badge">#{{ director.pkDirector }}</span></td>
+            <td><strong class="primary-cell">{{ director.name }}</strong></td>
+            <td>{{ director.age }} años</td>
+            <td><span class="status-badge" [class.inactive]="!director.active"><span></span>{{ director.active ?
+                'Activo' : 'Inactivo' }}</span>
+            </td>
+            <td class="row-actions">
+              <button type="button" class="icon-button edit" (click)="edit(director)">Editar</button>
+              <button type="button" class="icon-button delete" (click)="remove(director)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
-    <div class="empty-state" *ngIf="!loading && !filteredDirectors.length"><span>⌕</span><strong>No encontramos directores</strong><p>Prueba con otros filtros o agrega un nuevo registro.</p></div>
+    <!--Mensaje de que no se encontraron directores-->
+    <div class="empty-state" *ngIf="!loading && !filteredDirectors.length"><span>⌕</span><strong>No encontramos
+        directores</strong>
+      <p>Prueba con otros filtros o agrega un nuevo registro.</p>
+    </div>
   </article>
 </section>

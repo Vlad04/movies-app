@@ -1,3 +1,8 @@
+/* ==================================================
+   VARIABLES DE COLOR Y ESTILOS GENERALES
+   ================================================== */
+
+/* Paleta global utilizada por todos los componentes */
 :root {
   --primary: #d59c32;
   --primary-dark: #a96c17;
@@ -10,6 +15,7 @@
   color-scheme: light;
 }
 
+/* Configuración base para calcular correctamente tamaños y espacios */
 * {
   box-sizing: border-box;
 }
@@ -37,10 +43,18 @@ button {
   cursor: pointer;
 }
 
+/* ==================================================
+   ESTRUCTURA GENERAL DE LAS VISTAS
+   ================================================== */
+
 .page {
   display: grid;
   gap: 18px;
 }
+
+/* ==================================================
+   ENCABEZADOS PRINCIPALES
+   ================================================== */
 
 .hero-card {
   position: relative;
@@ -57,6 +71,7 @@ button {
   box-shadow: 0 18px 45px rgba(22, 32, 51, .07);
 }
 
+/* Fondo específico para la vista de directores */
 .directors-hero {
   background:
     radial-gradient(circle at 82% 100%, rgba(173, 62, 67, .16), transparent 36%),
@@ -110,6 +125,10 @@ button {
   font-weight: 900;
   user-select: none;
 }
+
+/* ==================================================
+   TARJETAS DE ESTADÍSTICAS
+   ================================================== */
 
 .stats-grid {
   display: grid;
@@ -190,6 +209,10 @@ button {
   font-weight: 800;
 }
 
+/* ==================================================
+   TARJETAS DE CONTENIDO
+   ================================================== */
+
 .content-card {
   padding: 24px;
   border: 1px solid var(--border);
@@ -231,6 +254,10 @@ button {
   background: #fff1db;
   color: #9a651b;
 }
+
+/* ==================================================
+   FORMULARIOS
+   ================================================== */
 
 .form-grid {
   display: grid;
@@ -295,6 +322,10 @@ select:focus {
   accent-color: var(--primary);
 }
 
+/* ==================================================
+   BOTONES Y ACCIONES
+   ================================================== */
+
 .actions {
   display: flex;
   gap: 8px;
@@ -336,6 +367,10 @@ select:focus {
   box-shadow: none;
 }
 
+/* ==================================================
+   MENSAJES DE RESPUESTA
+   ================================================== */
+
 .alert {
   margin: 0;
   padding: 13px 16px;
@@ -364,6 +399,10 @@ select:focus {
   margin-bottom: 16px;
 }
 
+/* ==================================================
+   FILTROS DE BÚSQUEDA
+   ================================================== */
+
 .filters-grid {
   display: grid;
   grid-template-columns: minmax(220px, 1.6fr) minmax(150px, .8fr) minmax(180px, 1fr) auto;
@@ -383,6 +422,10 @@ select:focus {
 .clear-button {
   white-space: nowrap;
 }
+
+/* ==================================================
+   TABLAS DE RESULTADOS
+   ================================================== */
 
 .table-wrap {
   overflow-x: auto;
@@ -498,6 +541,10 @@ tbody tr:hover {
   background: #fff5f5;
 }
 
+/* ==================================================
+   ESTADOS DE CARGA Y SIN RESULTADOS
+   ================================================== */
+
 .loading-state,
 .empty-state {
   min-height: 170px;
@@ -549,6 +596,10 @@ tbody tr:hover {
   }
 }
 
+/* ==================================================
+   DISEÑO RESPONSIVO
+   ================================================== */
+
 @media (max-width: 1180px) {
 
   .movie-form,
@@ -580,6 +631,7 @@ tbody tr:hover {
   }
 }
 
+/* Ajustes para teléfonos */
 @media (max-width: 600px) {
   .hero-card {
     min-height: 220px;
@@ -624,6 +676,10 @@ tbody tr:hover {
     gap: 4px;
   }
 }
+
+/* ==================================================
+   PALETA CINEMATOGRÁFICA
+   ================================================== */
 
 .button.primary {
   color: #ffffff;
