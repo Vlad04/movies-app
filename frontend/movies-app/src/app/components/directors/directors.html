@@ -85,15 +85,33 @@
         </thead>
         <tbody>
           <tr *ngFor="let director of filteredDirectors; trackBy: trackByDirectorId">
-            <td><span class="id-badge">#{{ director.pkDirector }}</span></td>
-            <td><strong class="primary-cell">{{ director.name }}</strong></td>
-            <td>{{ director.age }} años</td>
-            <td><span class="status-badge" [class.inactive]="!director.active"><span></span>{{ director.active ?
-                'Activo' : 'Inactivo' }}</span>
+            <td data-label="ID">
+              <span class="id-badge">#{{ director.pkDirector }}</span>
             </td>
-            <td class="row-actions">
-              <button type="button" class="icon-button edit" (click)="edit(director)">Editar</button>
-              <button type="button" class="icon-button delete" (click)="remove(director)">Eliminar</button>
+
+            <td data-label="Director">
+              <strong class="primary-cell">{{ director.name }}</strong>
+            </td>
+
+            <td data-label="Edad">
+              {{ director.age }} años
+            </td>
+
+            <td data-label="Estado">
+              <span class="status-badge" [class.inactive]="!director.active">
+                <span></span>
+                {{ director.active ? 'Activo' : 'Inactivo' }}
+              </span>
+            </td>
+
+            <td data-label="Acciones" class="row-actions">
+              <button type="button" class="icon-button edit" (click)="edit(director)">
+                Editar
+              </button>
+
+              <button type="button" class="icon-button delete" (click)="remove(director)">
+                Eliminar
+              </button>
             </td>
           </tr>
         </tbody>

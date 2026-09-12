@@ -88,14 +88,35 @@
         </thead>
         <tbody>
           <tr *ngFor="let movie of filteredMovies; trackBy: trackByMovieId">
-            <td><span class="id-badge">#{{ movie.pkMovies }}</span></td>
-            <td><strong class="primary-cell">{{ movie.name }}</strong></td>
-            <td><span class="tag">{{ movie.gender }}</span></td>
-            <td>{{ movie.duration }}</td>
-            <td>{{ movie.directorName }}</td>
-            <td class="row-actions"><button type="button" class="icon-button edit"
-                (click)="edit(movie)">Editar</button><button type="button" class="icon-button delete"
-                (click)="remove(movie)">Eliminar</button></td>
+            <td data-label="ID">
+              <span class="id-badge">#{{ movie.pkMovies }}</span>
+            </td>
+
+            <td data-label="Película">
+              <strong class="primary-cell">{{ movie.name }}</strong>
+            </td>
+
+            <td data-label="Género">
+              <span class="tag">{{ movie.gender }}</span>
+            </td>
+
+            <td data-label="Duración">
+              {{ movie.duration }}
+            </td>
+
+            <td data-label="Director">
+              {{ movie.directorName }}
+            </td>
+
+            <td data-label="Acciones" class="row-actions">
+              <button type="button" class="icon-button edit" (click)="edit(movie)">
+                Editar
+              </button>
+
+              <button type="button" class="icon-button delete" (click)="remove(movie)">
+                Eliminar
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>

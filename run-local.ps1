@@ -11,7 +11,7 @@ $databaseHost = 'srv1610.hstgr.io'
 $databasePort = '3306'
 $databaseName = 'u327351184_personal_hub'
 $databaseUser = 'u327351184_personal'
-$databasePassword = 'REEMPLAZAR_CONTRASENA'
+$databasePassword = 'Vlad17201325!'
 
 $projectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $backendDirectory = Join-Path $projectRoot 'backend\MoviesApi'
