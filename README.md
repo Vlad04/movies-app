@@ -1,6 +1,6 @@
 # Movies Manager — CRUD técnico
 
-Aplicación web para administrar películas y directores mediante un CRUD completo. Utiliza Angular para la interfaz, ASP.NET Core Web API para la lógica y MySQL para base de datos.
+Aplicación web para administrar películas y directores mediante un CRUD completo. Desarrollada con Angular y TypeScript para la interfaz, C# con ASP.NET Core para la API REST y MySQL para la persistencia de datos.
 
 ## Demostración pública
 
