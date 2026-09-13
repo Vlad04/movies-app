@@ -29,7 +29,29 @@
           placeholder="Ej. Interestelar"></label>
       <label><span>Género</span><input name="gender" [(ngModel)]="form.gender" required maxlength="50"
           placeholder="Ej. Ciencia ficción"></label>
-      <label><span>Duración</span><input name="duration" [(ngModel)]="form.duration" type="time" required></label>
+      <div class="duration-field">
+        <span class="field-label">Duración</span>
+
+        <div class="duration-selects">
+          <label>
+            <span>Horas</span>
+            <select name="durationHours" [(ngModel)]="durationHours">
+              <option *ngFor="let hour of availableHours" [ngValue]="hour">
+                {{ hour }} h
+              </option>
+            </select>
+          </label>
+
+          <label>
+            <span>Minutos</span>
+            <select name="durationMinutes" [(ngModel)]="durationMinutes">
+              <option *ngFor="let minute of availableMinutes" [ngValue]="minute">
+                {{ minute }} min
+              </option>
+            </select>
+          </label>
+        </div>
+      </div>
       <label><span>Director</span><select name="fkDirector" [(ngModel)]="form.fkDirector" required>
           <option [ngValue]="0" disabled>Selecciona un director</option>
           <option *ngFor="let director of directors" [ngValue]="director.pkDirector">{{ director.name }}{{
@@ -37,7 +59,8 @@
         </select></label>
       <div class="actions form-actions">
         <button class="button primary" type="submit"
-          [disabled]="movieForm.invalid || form.fkDirector === 0 || saving">{{ saving ? 'Guardando…' : (editingId ===
+          [disabled]="movieForm.invalid || form.fkDirector === 0 || (durationHours === 0 && durationMinutes === 0) || saving">{{
+          saving ? 'Guardando…' : (editingId ===
           null ? 'Agregar película' : 'Guardar cambios') }}</button>
         <button *ngIf="editingId !== null" type="button" class="button ghost" (click)="cancel()">Cancelar</button>
       </div>
@@ -78,7 +101,7 @@
       <table>
         <thead>
           <tr>
-            <th>ID</th>
+            <th>No.</th>
             <th>Película</th>
             <th>Género</th>
             <th>Duración</th>
@@ -87,9 +110,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let movie of filteredMovies; trackBy: trackByMovieId">
-            <td data-label="ID">
-              <span class="id-badge">#{{ movie.pkMovies }}</span>
+          <tr *ngFor="
+              let movie of filteredMovies;
+              let rowIndex = index;
+              trackBy: trackByMovieId
+            ">
+            <td data-label="No.">
+              <span class="id-badge">{{ rowIndex + 1 }}</span>
             </td>
 
             <td data-label="Película">
@@ -101,7 +128,7 @@
             </td>
 
             <td data-label="Duración">
-              {{ movie.duration }}
+              {{ formatDuration(movie.duration) }}
             </td>
 
             <td data-label="Director">

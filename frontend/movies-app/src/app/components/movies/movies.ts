@@ -37,6 +37,20 @@ export class Movies implements OnInit {
   genreFilter = '';
   directorFilter = 0;
 
+  // Valores disponibles para seleccionar la duración
+  readonly availableHours = Array.from(
+    { length: 13 },
+    (_, index) => index
+  );
+
+  readonly availableMinutes = Array.from(
+    { length: 60 },
+    (_, index) => index
+  );
+
+  durationHours = 1;
+  durationMinutes = 30;
+
   // Genera la lista de géneros disponibles sin valores repetidos
   get genres(): string[] {
     return [...new Set(this.movies.map(movie => movie.gender))]
@@ -107,13 +121,16 @@ export class Movies implements OnInit {
 
     const wasEditing = this.editingId !== null;
 
-    // El campo HTML de tipo time devuelve HH:mm. La API recibe la duración como HH:mm:ss, por lo que agregamos los segundos cuando no están presentes.
+    // Convierte las horas y minutos seleccionados al formato HH:mm:ss
+    const duration = [
+      this.durationHours.toString().padStart(2, '0'),
+      this.durationMinutes.toString().padStart(2, '0'),
+      '00'
+    ].join(':');
+
     const payload: SaveMovie = {
       ...this.form,
-      duration:
-        this.form.duration.length === 5
-          ? `${this.form.duration}:00`
-          : this.form.duration
+      duration
     };
 
     const request: Observable<unknown> = wasEditing
@@ -144,7 +161,10 @@ export class Movies implements OnInit {
     this.error = '';
     this.success = '';
     this.editingId = movie.pkMovies;
+    const [hours, minutes] = movie.duration.split(':');
 
+    this.durationHours = Number(hours);
+    this.durationMinutes = Number(minutes);
     this.form = {
       name: movie.name,
       gender: movie.gender,
@@ -183,6 +203,8 @@ export class Movies implements OnInit {
   cancel(clearMessages = true): void {
     this.editingId = null;
     this.form = this.emptyForm();
+    this.durationHours = 1;
+    this.durationMinutes = 30;
 
     if (clearMessages) {
       this.error = '';
@@ -194,6 +216,12 @@ export class Movies implements OnInit {
     this.searchTerm = '';
     this.genreFilter = '';
     this.directorFilter = 0;
+  }
+
+  // Convierte HH:mm:ss a un formato legible para la tabla
+  formatDuration(duration: string): string {
+    const [hours, minutes] = duration.split(':');
+    return `${Number(hours)} h ${minutes} min`;
   }
 
   // Permite que Angular identifique cada fila mediante su clave primaria
