@@ -162,14 +162,6 @@ El proyecto se publicó como un Web Service de Render conectado al repositorio d
 
 Las credenciales no se almacenan en GitHub. Localmente se administran con .NET User Secrets y en Render mediante una variable de entorno secreta.
 
-## Decisiones técnicas
-
-- DTOs para separar las entidades de persistencia del contrato HTTP.
-- Eliminación restringida para proteger la integridad referencial.
-- Filtros en memoria por el volumen reducido de esta evaluación.
-- Ruta relativa `/api` para utilizar el mismo frontend localmente y en producción.
-- Docker multi-stage para excluir Node.js y el SDK de .NET de la imagen final.
-
 ## Pruebas manuales sugeridas
 
 1. Crear y editar un director.
